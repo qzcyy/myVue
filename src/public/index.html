@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Angularjs 整合Bootstrap实现任务清单</title>
+    <!-- 引入 Bootstrap -->
+    <link href="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 720px;
+        }
+        .done {
+            color: #cca;
+        }
+        .checkbox {
+            margin-right: 12px;
+            margin-bottom: 0;
+        }
+        .done > .checkbox > label > span {
+            text-decoration: line-through;
+        }
+    </style>
+    <script src="node_modules/angular/angular.js"></script>
+    <script src="myjs/app.js"></script>
+</head>
+<body >
+    <div class="container" ng-app="todoapp">
+        <header>
+            <h1 class="display-3">TODO LIST</h1>
+            <hr></header>
+        <!-- 内容部分-->
+        <section ng-controller="maincontroller">
+            <!--为了实现好看的界面，所以用了表单控制-->
+            <form class="input-group input-group-lg">
+                <input type="text" class="form-control" ng-model="text" name="">
+                <span class="input-group-btn">
+                    <button class="btn btn-secondary" ng-click="add()">Add</button>
+                </span>
+            </form>
+            <ul class="list-group" style="padding:12px;">
+                <li class="list-group-item" ng-class="{'done':item.done}" ng-repeat="item in todolist" >
+                <button type="button" class="close" aria-label="close" ng-click="delete(item)">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="item.done">
+                            <span>{{item.text }}</span>
+                        </label>
+                    </div>
+                </li>
+            </ul>
+            <p>
+                总共 <strong>{{todolist.length }}</strong>
+                个任务，已完成 <strong>{{doneCount()}}</strong>
+                个
+            </p>
+        </section>
+    </div>
+
+</body>
+</html>
