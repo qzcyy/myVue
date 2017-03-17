@@ -7,6 +7,7 @@ import resource from 'vue-resource'
 import todolist from './component/todolist.vue'
 Vue.use(router);
 Vue.use(resource);
+
 const v1=new router({
   mode:'history',
   base:__dirname,

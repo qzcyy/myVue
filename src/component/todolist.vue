@@ -3,7 +3,7 @@
         <header>
             <h1 class="display-3">TODO LIST</h1>
             <hr></header>
-            <link href="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
+        
         <!-- 内容部分-->
         <section>
             <!--为了实现好看的界面，所以用了表单控制-->
@@ -14,18 +14,19 @@
                 </span>
             </form>
             <ul class="list-group" style="padding:12px;">
-                <li class="list-group-item" v-for="item in items">
+                <li class="list-group-item" v-for="(item,index) in items" v-on:click="todo(index)">
                 <button type="button" class="close" aria-label="close">
                     <span aria-hidden="true">&times;</span>
                     <span class="sr-only">Close</span>
                 </button>
-                
+                <span style="color:green" v-if="item.do==1">★</span>
+                <span style="color:red" v-if="item.do==2">X</span>
                     {{item.msg}}
                 </li>
             </ul>
             <p>
-                总共 <strong></strong>
-                个任务，已完成 <strong></strong>
+                总共 <strong>{{items.length}}</strong>
+                个任务，已完成 <strong>{{items | todolists}}</strong>
                 个
             </p>
         </section>
@@ -33,6 +34,7 @@
 </template>
     
     <style>
+        @import url('http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.min.css');
         .container {
             max-width: 720px;
         }
@@ -52,12 +54,22 @@
         name:'todolist',
         data(){
             return{
-                items:[]
+                items:[],
+                cunt:0
             }
         },
         methods: {
             go:function(){
                 alert(1);
+            },
+            todo:function(index){
+                if(this.items[index].do==2){
+                    this.items[index].do=1;
+                    this.cunt++;
+                }else{
+                    this.items[index].do=2
+                    --this.cunt>=0?this.cunt:this.cunt=0;
+                }
             }
         },
         mounted () {
@@ -71,6 +83,18 @@
             },(Response)=>{
 
             });
+        },
+        filters:{
+            todolists:function(value){
+                var pushArr=0;
+                for(var i=0;i<value.length;i++){
+                    if(value[i].do==1){
+                        pushArr++;
+                    }
+                }
+                return pushArr;
+            }
         }
+    
     }
 </script>
