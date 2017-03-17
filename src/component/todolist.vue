@@ -16,18 +16,21 @@
             <ul class="list-group" style="padding:12px;">
                 <li class="list-group-item" v-for="(item,index) in items" v-on:click="todo(index)">
                 <button type="button" class="close" aria-label="close">
-                    <span aria-hidden="true">&times;</span>
-                    <span class="sr-only">Close</span>
+                    <span aria-hidden="true" @click="close(index)">&times;</span>
+                    <span class="sr-only" >Close</span>
                 </button>
                 <span style="color:green" v-if="item.do==1">★</span>
                 <span style="color:red" v-if="item.do==2">X</span>
                     {{item.msg}}
                 </li>
             </ul>
-            <p>
+            <p v-show="items.length">
                 总共 <strong>{{items.length}}</strong>
                 个任务，已完成 <strong>{{items | todolists}}</strong>
                 个
+            </p>
+            <p v-if="items.length">
+                无任务
             </p>
         </section>
     </div>
@@ -70,6 +73,10 @@
                     this.items[index].do=2
                     --this.cunt>=0?this.cunt:this.cunt=0;
                 }
+            },
+            close(index){
+                this.items.splice(index,1);
+                window.event.cancelBubble = true;
             }
         },
         mounted () {
